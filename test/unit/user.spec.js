@@ -1,20 +1,16 @@
 const expect = require('chai').expect;
 const User = require('../../models').User;
+const userAttr = require('../test-helper').user;
 
 describe('User model', () => {
   // before(() => require('../../models').sequelize.sync({ force: true }));
-  let userAttr = {
-    name: 'John Doe',
-    email: 'jondoe@gmail.com',
-    password: 'pa55w0rd',
-  };
 
   beforeEach(() => {
     this.user = User.build(userAttr);
-    return require('../../models').sequelize.sync({ force: true });
+    return User.sequelize.sync({ force: true });
   })
 
-  // afterEach(() => require('../../models').sequelize.sync({ force: true }))
+  afterEach(() => User.sequelize.sync({ force: true }))
 
   describe('.build', () => {
     it('creates a User instance', () => {
@@ -23,7 +19,7 @@ describe('User model', () => {
     });
   });
 
-  describe('.save', () => {
+  describe('#save', () => {
     it('saves the user', () => {
       return this.user.save()
         .then((user) => {
@@ -48,7 +44,7 @@ describe('User model', () => {
             });
         });
     });
-
+    
   });
 
   describe('.find', () => {
@@ -65,7 +61,7 @@ describe('User model', () => {
     })
   });
 
-  describe('.destroy', () => {
+  describe('#destroy', () => {
     it('deletes a user', () => {
       return this.user.save()
         .then((user) => {
