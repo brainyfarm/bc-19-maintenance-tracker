@@ -22,13 +22,22 @@ namespace('db', () => {
     client.connect((err) => {
       if (err) throw err;
 
-      // create database
-      client.query(`create database ${config.database}`, (err, result) => {
-        if (err) throw err;
-        
-        console.log(`Database: ${config.database} created.`);
-        client.end();
-      });
+      client.query(`SELECT 1 from pg_database WHERE datname='${config.database}'`, (err, result) => {
+          if (err) throw err;
+          
+          if(result.rowCount !== 0) {
+            console.log(`Database: ${config.database} already exist.`);
+            client.end();
+          } else {
+            // create database
+            client.query(`CREATE DATABASE ${config.database}`, (err, result) => {
+              if (err) throw err;
+              
+              console.log(`Database: ${config.database} created.`);
+              client.end();
+            });
+          }
+      })
 
     });
 
@@ -44,7 +53,7 @@ namespace('db', () => {
       if (err) throw err;
 
       // drop database
-      client.query(`drop database ${config.database}`, (err, result) => {
+      client.query(`DROP DATABASE ${config.database}`, (err, result) => {
         if (err) throw err;
 
         console.log(`Database: ${config.database} deleted.`);

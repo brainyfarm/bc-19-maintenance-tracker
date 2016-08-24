@@ -1,0 +1,16 @@
+language: node_js
+
+node_js:
+  - node
+  - 5
+  - 4
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database tracker_test;' -U postgres
+  - npm run test-db-migrate
+
+after_script:
+  - npm run test
