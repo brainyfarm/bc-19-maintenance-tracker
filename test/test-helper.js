@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV !== "test") {
+if (process.env.NODE_ENV !== "test") {
   process.exit(1);
 }
 
@@ -11,8 +11,6 @@ module.exports = {
 
   request: {
     description: "A new request",
-    // slug: "a-new-request",
-    status: "",
     type: "repair"
   }
 }

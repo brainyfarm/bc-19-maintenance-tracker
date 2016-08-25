@@ -7,6 +7,9 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 
+const db = require('./models');
+const SequelizeStore = require('connect-session-sequelize')(session.Store)
+
 const routes = require('./routes');
 const users = require('./routes/users');
 const auth = require('./routes/auth')(passport);
@@ -26,36 +29,45 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// initialize passport
 app.use(session({
   secret: config.secretKeyBase,
-  resave: true,
-  saveUninitialized: true
+  store: new SequelizeStore({
+    db: db,
+    table: 'Session'
+  }),
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 600000 }
 }));
 
+// initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
 
 app.use('/', routes);
 app.use('/users', users);
 app.use('/auth', auth);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 require('./passport-init')(passport);
-// require('./helpers')(app);
 
 // error handlers
 
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -66,7 +78,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
