@@ -11,7 +11,6 @@ module.exports = function (passport) {
   });
 
   // Deserialize Session
-
   passport.deserializeUser((user, done) => {
     User.find({ id: user.id }).then((user) => {
       if (user) {
@@ -40,7 +39,7 @@ module.exports = function (passport) {
             }
 
           } else {
-            console.log(`User Not Found with email ${username}`);
+            console.log(`User Not Found with email ${email}`);
             return done(null, false);
           }
         })
@@ -55,7 +54,7 @@ module.exports = function (passport) {
 
       User.find({ email: email }).then((user) => {
         if (user) {
-          console.log(`User already exists with email: ${username}`);
+          console.log(`User already exists with email: ${email}`);
           return done(null, false);
         } else {
           User.create({
