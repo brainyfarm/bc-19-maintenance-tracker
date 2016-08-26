@@ -1,0 +1,7 @@
+input#description(type="text" name="description" placeholder="Request description" value=request.description)
+
+select#type(name="type" value=request.type)
+  each option in ['repair', 'maintenance']
+    option(value=option selected=(request.type == option ? true : false ))= option
+
+input(type="submit" value="save")

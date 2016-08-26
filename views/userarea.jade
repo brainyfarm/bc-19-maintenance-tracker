@@ -1,0 +1,50 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet" href="/bower_components/material-design-lite/material.min.css")
+    //- link(rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="/bower_components/material-design-lite/material.min.js")
+  body
+    .app-layout.mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
+      header.mdl-layout__header.mdl-color--grey-100.mdl-color-text--grey-600
+        .mdl-layout__header-row
+          .mdl-layout-title= title
+          .mdl-layout-spacer
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
+            label.mdl-button.mdl-js-button.mdl-button--icon(for='fixed-header-drawer-exp')
+              i.material-icons search
+            .mdl-textfield__expandable-holder
+              input#fixed-header-drawer-exp.mdl-textfield__input(type='text', name='sample')
+      .app-drawer.mdl-layout__drawer.mdl-color--blue-grey-900.mdl-color-text--blue-grey-50
+        header.app-drawer-header
+          img.app-avatar(src='/images/user.jpg')
+          .app-avatar-dropdown
+            span= user.name
+            .mdl-layout-spacer
+            button#accbtn.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
+              i.material-icons arrow_drop_down
+              span.visuallyhidden Accounts
+            ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='accbtn')
+              li.mdl-menu__item
+                i.material-icons account_circle
+                | Profile
+              li.mdl-menu__item
+                i.material-icons settings
+                | Settings
+
+        nav.app-navigation.mdl-navigation.mdl-color--blue-grey-800
+          a.mdl-navigation__link(href='/')
+            i.mdl-color-text--blue-grey-400.material-icons home
+            | Home
+          a.mdl-navigation__link(href='/requests')
+            i.mdl-color-text--blue-grey-400.material-icons list
+            | Requests
+          a.mdl-navigation__link(href='/auth/logout')
+            i.mdl-color-text--blue-grey-400.material-icons input
+            | Logout
+        
+      main.mdl-layout__content
+        .page-content
+          block content
