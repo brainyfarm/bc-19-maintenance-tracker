@@ -1,5 +1,12 @@
 extends ../layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .app-banner
+    .header(style="position:relative; text-align:center")
+      h2 Track your Maintenance Requests.
+      div
+        a(href="/login")
+          h4 Login
+        | or
+        a(href="/signup")
+          h4 Sign Up

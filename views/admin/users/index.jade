@@ -1,0 +1,21 @@
+extends ../../userarea
+ 
+block content
+  .mdl-grid
+    table.mdl-cell.mdl-cell--12-col.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
+      thead
+        tr
+          th ID
+          th Name
+          th Email
+          th Phone
+          th Registered
+
+      tbody
+        each user, i in users
+          tr
+            td= user.id
+            td= user.name
+            td= user.email
+            td= user.phone
+            td= moment(user.createdAt).format('MMM Do YY')

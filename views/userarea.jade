@@ -41,6 +41,10 @@ html
           a.mdl-navigation__link(href='/requests')
             i.mdl-color-text--blue-grey-400.material-icons list
             | Requests
+          if user.isAdmin
+            a.mdl-navigation__link(href='/admin/users')
+              i.mdl-color-text--blue-grey-400.material-icons person
+              | Users
           a.mdl-navigation__link(href='/user/account')
             i.mdl-color-text--blue-grey-400.material-icons settings
             | Account

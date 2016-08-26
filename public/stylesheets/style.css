@@ -2,7 +2,7 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: url(../bower_components/material-design-icons/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
   src: local('Material Icons'),
     local('MaterialIcons-Regular'),
     url(../bower_components/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
@@ -34,14 +34,41 @@ html, body {
   max-width: 350px;
 }
 
+.app-header.mdl-layout__header {
+  background: #2fb19d !important;
+}
+
 .app-mdl-card {
   padding: 15px;
+  color: rgba(0,0,0,.87);
 }
 
 .app-button--fab {
   position: absolute;
   bottom: 15px;
   right: 15px;
+}
+
+.app-banner {
+  padding-top: 8.25rem;
+  padding-bottom: 0;
+  position: relative;
+  min-height: 500px;
+  color: #fff;
+}
+
+.app-banner:before {
+  background: -webkit-linear-gradient(top,#2fb19d 0,#4bbaa7 50%,#6fc8b9 100%);
+  background: linear-gradient(to bottom,#2fb19d 0,#4bbaa7 50%,#6fc8b9 100%);
+  background: -webkit-radial-gradient(50% 120%,120% 200%,#b8e4dc 0,#3eb5a1 50%,#0ba694 100%);
+  background: radial-gradient(50% 120%,120% 200%,#b8e4dc 0,#3eb5a1 50%,#0ba694 100%);
+  bottom: 0;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 0;
 }
 
 .app-navigation__top .mdl-navigation__link {
@@ -115,7 +142,8 @@ html, body {
   font-weight: 500;
 }
 .app-layout .app-navigation .mdl-navigation__link:hover {
-  background-color: #00BCD4;
+  /*background-color: #00BCD4;*/
+  background-color: #2fb19d;
   color: #37474F;
 }
 .app-navigation .mdl-navigation__link .material-icons {

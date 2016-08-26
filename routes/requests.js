@@ -60,7 +60,7 @@ router.route('/:id')
       if(!request)
         res.sendStatus(404);
 
-      res.json(request);
+      res.render('requests/show', { title:  request.description.slice(0, 30), request: request });
     });
   })
 
