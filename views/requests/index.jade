@@ -1,8 +1,6 @@
 extends ../userarea
  
 block content
-  //- a(href="/requests/new") Submit Request
-
   .mdl-grid
     table.mdl-cell.mdl-cell--12-col.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
       thead
@@ -23,19 +21,25 @@ block content
             td= moment(request.createdAt).format('MMM Do YY')
             td= request.status
             td
-              button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored
-                i.material-icons= ( request.approved ? 'check' : 'clear')
+              if request.approved
+                button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored
+                  i.material-icons check
             td.actions
-              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(href=(`/requests/${request.id}\/edit`) id=('edit' + i))
-                i.material-icons edit
-                .mdl-tooltip(data-mdl-for=('edit' + i))
-                  | Edit
+              if !user.isAdmin
+                a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(href=(`/requests/${request.id}\/edit`) id=('edit' + i))
+                  i.material-icons edit
+                  .mdl-tooltip(data-mdl-for=('edit' + i))
+                    | Edit
+              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(href=(`/requests/${request.id}`) id=('show' + i))
+                i.material-icons visibility
+                .mdl-tooltip(data-mdl-for=('show' + i))
+                  | View
               form(action=(`/requests/${request.id}?_method=DELETE`) method="post" style="display:inline")
                 button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(id=('delete' + i))
                   i.material-icons delete
                 .mdl-tooltip(data-mdl-for=('delete' + i))
                   | Delete
 
-
-  a.app-button--fab.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-js-ripple-effect(href="/requests/new")
-    i.material-icons add
+  if !user.isAdmin
+    a.app-button--fab.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-js-ripple-effect(href="/requests/new")
+      i.material-icons add

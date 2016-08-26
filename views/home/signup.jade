@@ -3,6 +3,7 @@ extends ../layout
 block content
   .mdl-grid.app-grid-320
     form.mdl-card.app-mdl-card.mdl-shadow--2dp(action="/auth/signup" method="post")
+      h3 Sign Up
       .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
         input#name.mdl-textfield__input(type='text' name="name")
         label.mdl-textfield__label(for='name') Name
@@ -17,3 +18,5 @@ block content
         label.mdl-textfield__label(for='password') Password
 
       input.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(type="submit" value="Sign Up")
+      | or
+      a(href="/signup") Sign Up
