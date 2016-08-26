@@ -7,6 +7,7 @@ module.exports = {
     name: 'John Doe',
     email: 'jondoe@gmail.com',
     password: 'pa55w0rd',
+    phone: '01234567890'
   },
 
   request: {

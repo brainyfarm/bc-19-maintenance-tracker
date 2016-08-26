@@ -12,7 +12,7 @@ module.exports = function (passport) {
 
   // Deserialize Session
   passport.deserializeUser((user, done) => {
-    User.find({ id: user.id }).then((user) => {
+    User.findOne({ where: { id: user.id } }).then((user) => {
       if (user) {
         done(null, user);
       } else {
@@ -27,11 +27,11 @@ module.exports = function (passport) {
       usernameField: 'email',
       passwordField: 'password',
     }, (req, email, password, done) => {
-        User.find({ email: email }).then((user) => {
-
+        User.findOne({ where: { email: email } }).then((user) => {
           if (user) { // Found user
 
             if (User.validPassword(user, password)) { // Password match
+              console.log(`${user.name} Login succesful`);
               return done(null, user);
             } else {
               console.log('Invalid Password');
@@ -52,13 +52,14 @@ module.exports = function (passport) {
       passwordField: 'password',
     }, (req, email, password, done) => {
 
-      User.find({ email: email }).then((user) => {
+      User.findOne({ where: { email: email } }).then((user) => {
         if (user) {
           console.log(`User already exists with email: ${email}`);
           return done(null, false);
         } else {
           User.create({
             name: req.body.name,
+            phone: req.body.phone,
             email: email,
             password: password
           }).then((user) => {

@@ -1,14 +1,19 @@
 extends ../layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .mdl-grid.app-grid-320
+    form.mdl-card.app-mdl-card.mdl-shadow--2dp(action="/auth/signup" method="post")
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        input#name.mdl-textfield__input(type='text' name="name")
+        label.mdl-textfield__label(for='name') Name
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        input#phone.mdl-textfield__input(type='tel' name="phone")
+        label.mdl-textfield__label(for='phone') Phone
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        input#email.mdl-textfield__input(type='email' name="email")
+        label.mdl-textfield__label(for='email') Email
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+        input#password.mdl-textfield__input(type='password' name="password")
+        label.mdl-textfield__label(for='password') Password
 
-  form(action="/auth/signup" method="post")
-    input(type="name" name="name" id="name" placeholder="Name")
-    br
-    input(type="email" name="email" id="email" placeholder="Email")
-    br
-    input(type="password" name="password" id="password" placeholder="Password")
-    br
-    input(type="submit")
+      input.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(type="submit" value="Sign Up")

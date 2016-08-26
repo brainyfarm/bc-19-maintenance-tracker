@@ -10,7 +10,11 @@ router.use('/', application.isAuthenticated);
 router.route('/')
 
   .get((req, res, next) => {
-    const query = req.user.isAdmin ? { order: 'id' } : { UserId: req.user.id, order: 'id' };
+    let query = { order: 'id' };
+
+    if (!req.user.isAdmin) {
+      query.where = { UserId: req.user.id };
+    }
 
     db.Request.findAll(query).then((requests) => {
       res.render('requests/index', { title: 'Maintenance Requests', requests: requests });

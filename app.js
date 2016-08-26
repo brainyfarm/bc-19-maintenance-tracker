@@ -12,8 +12,8 @@ const db = require('./models');
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 
 const routes = require('./routes');
-const users = require('./routes/users');
 const requests = require('./routes/requests');
+const adminRoutes = require('./routes/admin');
 
 const auth = require('./routes/auth')(passport);
 const config = require('./config/settings');
@@ -41,7 +41,7 @@ app.use(session({
     table: 'Session'
   }),
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { maxAge: 604800000 }
 }));
 
@@ -57,9 +57,10 @@ app.use((req, res, next) => {
 app.locals.moment = require('moment');
 
 app.use('/', routes);
-app.use('/users', users);
 app.use('/auth', auth);
 app.use('/requests', requests);
+
+app.use('/admin', adminRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

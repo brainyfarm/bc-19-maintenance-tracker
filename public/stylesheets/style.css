@@ -30,6 +30,14 @@ html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
+.app-grid-320 {
+  max-width: 350px;
+}
+
+.app-mdl-card {
+  padding: 15px;
+}
+
 .app-button--fab {
   position: absolute;
   bottom: 15px;
