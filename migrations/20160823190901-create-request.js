@@ -24,7 +24,8 @@ module.exports = {
         defaultValue: "reported"
       },
       type: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'maintenance'
       },
       approved: {
         type: Sequelize.BOOLEAN,

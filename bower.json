@@ -1,0 +1,21 @@
+{
+  "name": "bc-19-maintenance-tracker",
+  "description": "",
+  "main": "",
+  "authors": [
+    "azemoh <joshazemoh@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/azemoh/bc-19-maintenance-tracker",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "material-design-icons": "^2.2.3",
+    "material-design-lite": "^1.2.0"
+  }
+}

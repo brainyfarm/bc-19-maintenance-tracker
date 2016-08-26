@@ -1,11 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const router = require('express').Router();
 
 /* GET home page. */
 router
   // Home page
   .get('/', function(req, res, next) {
-    res.render('home/index', { title: 'Express' });
+    res.render('home/index', { title: 'Maintenance Tracker' });
   })
 
   // Login page

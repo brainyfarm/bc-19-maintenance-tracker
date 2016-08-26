@@ -19,6 +19,7 @@ module.exports = (passport) => {
 	  // Log out
     .get('/logout', (req, res) => {
       req.logOut();
+      req.user = null;
       req.session.destroy();
       res.redirect("/");
     });
