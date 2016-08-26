@@ -23,16 +23,9 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       defaultValue: false
     },
-    roles: {
+    role: {
       type: DataTypes.STRING,
-      allowNull: false,
-      get: function () {
-        const roles = this.getDataValue('roles') || '[]';
-        return JSON.parse(roles);
-      },
-      set: function (value) {
-        return this.setDataValue('roles', JSON.stringify(value));
-      }
+      allowNull: false
     },
     phone: DataTypes.STRING
 
@@ -52,9 +45,7 @@ module.exports = function(sequelize, DataTypes) {
     hooks: {
       beforeValidate: (user, options) => {
         user.isAdmin = user.isAdmin || false;
-        if (user.roles.length < 1){
-          user.roles = ['user'];
-        }
+        user.role = user.role || 'user';
       },
 
       beforeCreate: (user, options) => {

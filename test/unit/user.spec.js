@@ -32,11 +32,11 @@ describe('User model', () => {
     });
   });
 
-  describe('#roles', () => {
+  describe('#role', () => {
     it('assign default user role', () => {
       return this.user.save()
         .then((user) => {
-          expect(this.user.roles).to.eql(['user']);
+          expect(this.user.role).to.equal('user');
         });
     });
   })
