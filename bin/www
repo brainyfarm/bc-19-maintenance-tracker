@@ -10,6 +10,7 @@ const app = require('../app');
 const debug = require('debug')('bc-19-maintenance-tracker:server');
 const http = require('http');
 const db = require('../models');
+const config = require('../config/settings');
 /**
  * Get port from environment and store in Express.
  */
@@ -29,6 +30,12 @@ db.sequelize
     server = app.listen(port)
       .on('error', onError)
       .on('listening', onListening);
+
+      db.User.findOne({ where: { email: config.adminUser.email } }).then((user) => {
+        if (!user) {
+          db.User.build(config.adminUser).save();
+        }
+      });
   });
 
 /**
