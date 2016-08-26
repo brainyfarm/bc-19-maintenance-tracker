@@ -1,0 +1,7 @@
+extends ../userarea
+ 
+block content
+  .mdl-grid
+    form.mdl-cell.mdl-cell-6-col(action=(`/requests/${request.id}`) method="post")
+      include ./_form
+      
