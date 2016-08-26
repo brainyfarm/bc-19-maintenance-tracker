@@ -1,3 +1,5 @@
+'use strict';
+
 const router = require('express').Router();
 const db = require('../models');
 const application = require('./application');
@@ -8,7 +10,7 @@ router.use('/', application.isAuthenticated);
 router.route('/')
 
   .get((req, res, next) => {
-    let query = req.user.isAdmin ? { order: 'id' } : { UserId: req.user.id, order: 'id' };
+    const query = req.user.isAdmin ? { order: 'id' } : { UserId: req.user.id, order: 'id' };
 
     db.Request.findAll(query).then((requests) => {
       res.render('requests/index', { title: 'Maintenance Requests', requests: requests });
