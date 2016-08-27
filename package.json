@@ -11,8 +11,7 @@
     "db-drop": "jake db:drop && NODE_ENV=test jake db:drop",
     "db-migrate": "./node_modules/.bin/sequelize db:migrate",
     "test-db-migrate": "./node_modules/.bin/sequelize db:migrate --env test",
-    "setup": "npm run db-init && npm run db-migrate",
-    "postinstall": "./node_modules/.bin/bower install && ./node_modules/.bin/sequelize db:migrate"
+    "setup": "npm run db-init && npm run db-migrate"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
