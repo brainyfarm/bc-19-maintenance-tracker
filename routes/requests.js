@@ -56,10 +56,11 @@ router
 router.route('/:id')
 
   .get((req, res, next) => {
-    db.Request.findById(req.params.id).then((request) => {
+    db.Request.findById(req.params.id, { include: [ db.User, { model: db.User, as: 'Expert' } ] })
+      .then((request) => {
       if(!request)
         res.sendStatus(404);
-
+        console.log('[LOG]', request);
       res.render('requests/show', { title:  request.description.slice(0, 30), request: request });
     });
   })
