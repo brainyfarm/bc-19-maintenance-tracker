@@ -29,6 +29,7 @@ module.exports = function(sequelize, DataTypes) {
         });
 
         Request.belongsTo(models.User, { as: 'Expert' });
+        Request.hasMany(models.Comment);
       }
     },
 

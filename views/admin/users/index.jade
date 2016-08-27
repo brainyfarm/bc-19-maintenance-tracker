@@ -17,7 +17,7 @@ block content
             td.mdl-data-table__cell--non-numeric= person.name
             td.mdl-data-table__cell--non-numeric= person.email
             td.mdl-data-table__cell--non-numeric= person.phone
-            td= moment(person.createdAt).format('MMM Do YY')
+            td= formatDate(person.createdAt)
             td
               a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(href=(`/admin/${person.role}s/${person.id}`) id=('show' + i))
                 i.material-icons visibility

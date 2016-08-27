@@ -6,6 +6,8 @@ const application = require('./application');
 
 
 router.use('/', application.isAuthenticated);
+router.use('/:id/assign', application.isAdmin);
+router.use('/comments', application.isAdmin);
 
 router.route('/')
 
@@ -62,7 +64,6 @@ router
 
     db.Request.update(params, { where: { id: req.params.id }})
       .then((result) => {
-        console.log(result);
         res.redirect(`/requests/${req.params.id}`);
       })
 
@@ -71,20 +72,41 @@ router
       });
   })
 
+  .post('/:id/comments', (req, res) => {
+    const params = {
+      UserId: req.user.id,
+      body: req.body.body,
+      RequestId: req.params.id
+    };
+
+    db.Comment.create(params).then((comment) => {
+      res.redirect(`/requests/${req.params.id}`);
+    });
+  })
+
 router.route('/:id')
 
   .get((req, res, next) => {
-    db.Request.findById(req.params.id, { include: [ db.User, { model: db.User, as: 'Expert' } ] })
-      .then((request) => {
-      if(!request)
+    db.Request.findById(req.params.id, {
+      include: [
+        db.User,
+        { model: db.User, as: 'Expert' }
+      ]}).then((request) => {
+      if(!request) {
         res.sendStatus(404);
+      }
+
+      db.Comment.findAll({ where: { RequestId: req.params.id },
+        include: [ db.User ]
+       }).then((comments) => {
         if (request.Expert) {
-          res.render('requests/show', { title:  request.description.slice(0, 30), request: request });
+          res.render('requests/show', { title:  request.description.slice(0, 30), request: request, comments: comments });
         } else {
           db.User.findAll({ where: { role: 'expert' } }).then((experts) => {
-            res.render('requests/show', { title:  request.description.slice(0, 30), request: request, experts: experts });
+            res.render('requests/show', { title:  request.description.slice(0, 30), request: request, experts: experts, comments: comments });
           });
         }
+      })
     });
   })
 

@@ -16,7 +16,7 @@ block content
           tr
             td.mdl-data-table__cell--non-numeric= request.description
             td= request.type
-            td= moment(request.createdAt).format('MMM Do YY')
+            td= formatDate(request.createdAt)
             td
               span.request-status-sm(class=requestStatusClass(request))= request.status
             td
