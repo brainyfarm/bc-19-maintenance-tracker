@@ -36,20 +36,23 @@ html
 
         nav.app-navigation.mdl-navigation.mdl-color--blue-grey-800
           a.mdl-navigation__link(href='/')
-            i.mdl-color-text--blue-grey-400.material-icons home
+            i.mdl-color-text--blue-grey-100.material-icons home
             | Home
           a.mdl-navigation__link(href='/requests')
-            i.mdl-color-text--blue-grey-400.material-icons list
+            i.mdl-color-text--blue-grey-100.material-icons list
             | Requests
           if user.isAdmin
             a.mdl-navigation__link(href='/admin/users')
-              i.mdl-color-text--blue-grey-400.material-icons person
+              i.mdl-color-text--blue-grey-100.material-icons person
               | Users
+            a.mdl-navigation__link(href='/admin/experts')
+              i.mdl-color-text--blue-grey-100.material-icons people
+              | Experts
           a.mdl-navigation__link(href='/user/account')
-            i.mdl-color-text--blue-grey-400.material-icons settings
+            i.mdl-color-text--blue-grey-100.material-icons settings
             | Account
           a.mdl-navigation__link(href='/auth/logout')
-            i.mdl-color-text--blue-grey-400.material-icons input
+            i.mdl-color-text--blue-grey-100.material-icons input
             | Logout
           .mdl-layout-spacer
           span.mdl-navigation__link

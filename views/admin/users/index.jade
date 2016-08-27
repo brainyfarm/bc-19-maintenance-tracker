@@ -5,17 +5,25 @@ block content
     table.mdl-cell.mdl-cell--12-col.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
       thead
         tr
-          th ID
-          th Name
-          th Email
-          th Phone
+          th.mdl-data-table__cell--non-numeric Name
+          th.mdl-data-table__cell--non-numeric Email
+          th.mdl-data-table__cell--non-numeric Phone
           th Registered
+          th Actions
 
       tbody
         each user, i in users
           tr
-            td= user.id
-            td= user.name
-            td= user.email
-            td= user.phone
+            td.mdl-data-table__cell--non-numeric= user.name
+            td.mdl-data-table__cell--non-numeric= user.email
+            td.mdl-data-table__cell--non-numeric= user.phone
             td= moment(user.createdAt).format('MMM Do YY')
+            td
+              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(href=(`/${user.role}s/${user.id}`) id=('show' + i))
+                i.material-icons visibility
+                .mdl-tooltip(data-mdl-for=('show' + i))
+                  | View
+
+  if title == 'Experts'
+    a.app-button--fab.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-js-ripple-effect(href="/admin/experts/new")
+      i.material-icons add
