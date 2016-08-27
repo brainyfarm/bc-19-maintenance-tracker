@@ -273,7 +273,9 @@ _:-ms-input-placeholder, :root .app-graph {
 .request-status-sm {
   display: inline-block;
   color: #fff;
-  padding: 3px 10px;
+  padding: 1px 7px;
+  font-size: 11px;
+  font-weight: 600;
   border-radius: 15px;
 }
 

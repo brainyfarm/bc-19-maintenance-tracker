@@ -31,13 +31,12 @@ db.sequelize
       .on('error', onError)
       .on('listening', onListening);
 
-      db.User.findOne({ where: { email: config.adminUser.email } }).then((user) => {
-        if (!user) {
-          db.User.build(config.adminUser).save();
-        }
-      });
+      db.User.findOrCreate({ where: { email: config.adminUser.email },
+        defaults: config.adminUser }).then((user) => {})
+        .catch((err) => {
+          console.log('[LOG]', err);
+        });
   });
-
 /**
  * Normalize a port into a number, string, or false.
  */

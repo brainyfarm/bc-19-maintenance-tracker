@@ -32,10 +32,28 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
 
+    instanceMethods: {
+      declined: function () {
+        return this.status === 'declined'
+      },
+
+      approve: function () {
+        this.approved = true;
+        if(this.declined()) {
+          this.status = 'reported'
+        }
+      },
+
+      decline: function () {
+        this.approved = false;
+        this.status = 'declined'
+      }
+    },
+
     hooks: {
        beforeCreate: (request, options) => {
          request.slug = request.description.split(' ').join('-').toLowerCase();
-         request.status = 'reported';
+         request.status = request.status || 'reported';
        }
     }
   });

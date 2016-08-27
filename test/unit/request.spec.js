@@ -11,7 +11,7 @@ describe('Request model', () => {
   beforeEach(() => {
     this.request = Request.build(requestAttr);
     this.user = User.build(fixtures.user);
-    return Request.sync({ force: true });
+    return User.sync({ force: true });
   });
 
   describe('.build', () => {
@@ -37,5 +37,45 @@ describe('Request model', () => {
         });
     });
   });
+
+  describe('#declined', () => {
+    it('return false for undeclined request', () => {
+      return this.user.save()
+        .then((user) => {
+          this.request.UserId = this.user.id;
+          return this.request.save()
+            .then((request) => {
+              expect(request.declined()).to.be.false
+            });
+        });
+    });
+
+    it('returns true for daclined request', () => {
+      return this.user.save()
+        .then((user) => {
+          this.request.UserId = this.user.id;
+          this.request.decline();
+          return this.request.save()
+            .then((request) => {
+              expect(request.declined()).to.be.true
+            });
+        });
+    });
+  });
+
+  describe('#approve', () => {
+    it('returns true for daclined request', () => {
+      return this.user.save()
+        .then((user) => {
+          this.request.UserId = this.user.id;
+          this.request.approve();
+          return this.request.save()
+            .then((request) => {
+              expect(request.declined()).to.be.false
+              expect(request.approved).to.be.true
+            });
+        });
+    });
+  })
 
 });
