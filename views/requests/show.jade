@@ -1,0 +1,63 @@
+extends ../userarea
+
+block content
+  .mdl-grid
+    .mdl-cell
+      a.mdl-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored(href="/requests")
+        i.material-icons arrow_back
+
+  .mdl-grid
+    .app-data-list.mdl-cell.mdl-cell--6-col
+      .mdl-grid
+        h4.mdl-cell.mdl-cell--8-col Request Details
+        .mdl-cell.mdl-cell--4-col
+          span.request-status(class=requestStatusClass(request))= request.status
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col Description
+        .mdl-cell.mdl-cell--6-col= request.description
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col Type
+        .mdl-cell.mdl-cell--6-col= request.type
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col Approved
+        .mdl-cell.mdl-cell--6-col
+          i.material-icons #{request.approved ? 'check' : 'clear'}
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col Date Created
+        .mdl-cell.mdl-cell--6-col= moment(request.createdAt).format('MMM Do YY, h:mm a')
+    .app-data-list.mdl-cell.mdl-cell--6-col
+      .mdl-grid
+        h4 User Details
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col
+          img.app-avatar(src='/images/user.jpg')
+
+        .mdl-cell.mdl-cell--6-col
+          strong= request.User.name
+          br
+          = request.User.email
+
+      .mdl-grid
+        h4 Assigned Expert
+      .mdl-grid
+        if request.Expert
+          .mdl-cell.mdl-cell--6-col
+            img.app-avatar(src='/images/user.jpg')
+
+          .mdl-cell.mdl-cell--6-col
+            strong= request.Expert.name
+            br
+            = request.Expert.email
+            br
+            = request.Expert.phone
+        else
+          strong No Expert assigned to this request.
+      if !request.Expert && user.isAdmin
+        form.mdl-grid(action=`/requests/${request.id}\/assign` method="post")
+          .mdl-cell.mdl-cell--6-col
+            .mdl-selectfield
+              select#expert(name="expert" required)
+                each expert in experts
+                  option(value=expert.id)= expert.name
+          .mdl-cell.mdl-cell--6-col
+            input.mdl-button.mdl-button--raised.mdl-button--accent(type="submit" value="Assign")
