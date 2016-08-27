@@ -5,7 +5,6 @@ block content
     table.mdl-cell.mdl-cell--12-col.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
       thead
         tr
-          th ID
           th.mdl-data-table__cell--non-numeric Description
           th Type
           th Data created
@@ -15,11 +14,11 @@ block content
       tbody
         each request, i in requests
           tr
-            td= request.id
             td.mdl-data-table__cell--non-numeric= request.description
             td= request.type
             td= moment(request.createdAt).format('MMM Do YY')
-            td= request.status
+            td
+              span.request-status-sm(class=requestStatusClass(request))= request.status
             td
               if request.approved
                 button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored

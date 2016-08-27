@@ -27,6 +27,8 @@ module.exports = function(sequelize, DataTypes) {
           onDelete: 'CASCADE',
           foreignKey: { allowNull: false }
         });
+
+        Request.belongsTo(models.User, { as: 'Expert' });
       }
     },
 

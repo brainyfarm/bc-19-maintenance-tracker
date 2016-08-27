@@ -51,16 +51,40 @@ router
 
       res.render('requests/edit', { title: 'Edit Request', request: request });
     });
-  });
+  })
+
+  .post('/:id/assign', (req, res) => {
+    const params = {
+      ExpertId: req.body.expert,
+      status: "assigned",
+      approved: true
+    }
+
+    db.Request.update(params, { where: { id: req.params.id }})
+      .then((result) => {
+        console.log(result);
+        res.redirect(`/requests/${req.params.id}`);
+      })
+
+      .catch((err) => {
+        console.log('[Error]', err);
+      });
+  })
 
 router.route('/:id')
 
   .get((req, res, next) => {
-    db.Request.findById(req.params.id).then((request) => {
+    db.Request.findById(req.params.id, { include: [ db.User, { model: db.User, as: 'Expert' } ] })
+      .then((request) => {
       if(!request)
         res.sendStatus(404);
-
-      res.render('requests/show', { title:  request.description.slice(0, 30), request: request });
+        if (request.Expert) {
+          res.render('requests/show', { title:  request.description.slice(0, 30), request: request });
+        } else {
+          db.User.findAll({ where: { role: 'expert' } }).then((experts) => {
+            res.render('requests/show', { title:  request.description.slice(0, 30), request: request, experts: experts });
+          });
+        }
     });
   })
 

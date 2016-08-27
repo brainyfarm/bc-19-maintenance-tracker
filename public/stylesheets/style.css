@@ -28,6 +28,7 @@
 
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
+  color: #555;
 }
 
 .app-grid-320 {
@@ -138,7 +139,7 @@ html, body {
   display: flex !important;
   flex-direction: row;
   align-items: center;
-  color: rgba(255, 255, 255, 0.56);
+  color: rgba(255, 255, 255, 0.76);
   font-weight: 500;
 }
 .app-layout .app-navigation .mdl-navigation__link:hover {
@@ -245,4 +246,50 @@ _:-ms-input-placeholder, :root .app-graph {
   display: flex;
   box-sizing: border-box;
   align-items: center;
+}
+
+.app-data-list .mdl-grid {
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+
+.app-data-list .mdl-grid .mdl-cell {
+  padding: 10px 5px;
+  /*text-transform: capitalize;*/
+}
+
+.app-data-list .mdl-grid .mdl-cell:nth-child(2) {
+  text-align: right;
+  font-weight: bold;
+}
+
+.request-status {
+  display: inline-block;
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+.request-status-sm {
+  display: inline-block;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 15px;
+}
+
+.status-success {
+  background: mediumseagreen;
+}
+
+.status-error {
+  background: red;
+}
+
+.status-info {
+  background: deepskyblue;
+}
+
+.status-working {
+  background: sandybrown;
+  /*color: inherit;*/
 }

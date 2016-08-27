@@ -1,7 +1,10 @@
-input#description(type="text" name="description" placeholder="Request description" value=request.description)
+.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+  input#description.mdl-textfield__input(type="text" name="description" value=request.description)
+  label.mdl-textfield__label(for='description') Description
+.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+  select#type.mdl-textfield__input(name="type" value=request.type)
+    each option in ['repair', 'maintenance']
+      option(value=option selected=(request.type == option ? true : false ))= option
+  
 
-select#type(name="type" value=request.type)
-  each option in ['repair', 'maintenance']
-    option(value=option selected=(request.type == option ? true : false ))= option
-
-input(type="submit" value="save")
+input.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(type="submit" value="Save")

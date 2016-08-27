@@ -33,6 +33,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: (models) => {
         User.hasMany(models.Request);
+        User.hasMany(models.Request, { as: 'Tasks'})
       },
 
       validPassword: (user, password) => {
