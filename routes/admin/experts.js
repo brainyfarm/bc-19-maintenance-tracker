@@ -45,6 +45,20 @@ router
         res.render('admin/experts/edit', { title: 'Update Expert', expert: expert})
       }
     })
-  })
+  });
+
+router.route('/:id')
+  .post((req, res) => {
+    const params = {
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone
+    };
+    
+    db.User.update(params, { where: { id: req.params.id }})
+      .then((user) => {
+        res.redirect("/admin/experts");
+      });
+  });
 
 module.exports = router;

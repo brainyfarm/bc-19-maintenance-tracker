@@ -12,17 +12,21 @@ block content
           th Actions
 
       tbody
-        each user, i in users
+        each person, i in users
           tr
-            td.mdl-data-table__cell--non-numeric= user.name
-            td.mdl-data-table__cell--non-numeric= user.email
-            td.mdl-data-table__cell--non-numeric= user.phone
-            td= moment(user.createdAt).format('MMM Do YY')
+            td.mdl-data-table__cell--non-numeric= person.name
+            td.mdl-data-table__cell--non-numeric= person.email
+            td.mdl-data-table__cell--non-numeric= person.phone
+            td= moment(person.createdAt).format('MMM Do YY')
             td
-              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(href=(`/${user.role}s/${user.id}`) id=('show' + i))
+              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(href=(`/admin/${person.role}s/${person.id}`) id=('show' + i))
                 i.material-icons visibility
                 .mdl-tooltip(data-mdl-for=('show' + i))
                   | View
+              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(href=(`/admin/experts/${person.id}\/edit`) id=('edit' + i))
+                i.material-icons edit
+                .mdl-tooltip(data-mdl-for=('edit' + i))
+                  | Edit
 
   if title == 'Experts'
     a.app-button--fab.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-js-ripple-effect(href="/admin/experts/new")
