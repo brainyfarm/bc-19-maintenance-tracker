@@ -34,20 +34,20 @@ module.exports = function(sequelize, DataTypes) {
     },
 
     instanceMethods: {
-      declined: function () {
-        return this.status === 'declined'
+      rejected: function () {
+        return this.status === 'rejected'
       },
 
       approve: function () {
         this.approved = true;
-        if(this.declined()) {
+        if(this.rejected()) {
           this.status = 'reported'
         }
       },
 
-      decline: function () {
+      reject: function () {
         this.approved = false;
-        this.status = 'declined'
+        this.status = 'rejected'
       }
     },
 

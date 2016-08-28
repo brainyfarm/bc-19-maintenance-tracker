@@ -38,14 +38,14 @@ describe('Request model', () => {
     });
   });
 
-  describe('#declined', () => {
-    it('return false for undeclined request', () => {
+  describe('#rejected', () => {
+    it('return false for approved request', () => {
       return this.user.save()
         .then((user) => {
           this.request.UserId = this.user.id;
           return this.request.save()
             .then((request) => {
-              expect(request.declined()).to.be.false
+              expect(request.rejected()).to.be.false
             });
         });
     });
@@ -54,10 +54,10 @@ describe('Request model', () => {
       return this.user.save()
         .then((user) => {
           this.request.UserId = this.user.id;
-          this.request.decline();
+          this.request.reject();
           return this.request.save()
             .then((request) => {
-              expect(request.declined()).to.be.true
+              expect(request.rejected()).to.be.true
             });
         });
     });
@@ -71,7 +71,7 @@ describe('Request model', () => {
           this.request.approve();
           return this.request.save()
             .then((request) => {
-              expect(request.declined()).to.be.false
+              expect(request.rejected()).to.be.false
               expect(request.approved).to.be.true
             });
         });
