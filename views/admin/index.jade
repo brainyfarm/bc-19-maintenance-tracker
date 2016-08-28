@@ -1,0 +1,43 @@
+extends ../userarea
+
+block content
+  .mdl-grid.app-dash
+    .mdl-cell.mdl-cell--4-col.mdl-color--white.mdl-shadow--2dp
+      h2= requests.length
+      h4 Requests
+    .mdl-cell.mdl-cell--4-col.mdl-color--white.mdl-shadow--2dp
+      h2= users.length
+      h4 Users
+    .mdl-cell.mdl-cell--4-col.mdl-color--white.mdl-shadow--2dp
+      h2= experts.length
+      h4 Experts
+  .mdl-grid
+    h4 Lastest Request
+  .mdl-grid
+    table.mdl-cell.mdl-cell--12-col.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
+      thead
+        tr
+          th.mdl-data-table__cell--non-numeric Description
+          th Type
+          th Data created
+          th Status
+          th Approved
+          th Actions
+      tbody
+        - requests.splice(4)
+        each request in requests
+          tr
+            td.mdl-data-table__cell--non-numeric= request.description
+            td= request.type
+            td= formatDate(request.createdAt)
+            td
+              span.request-status-sm(class=requestStatusClass(request))= request.status
+            td
+              if request.approved
+                button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored
+                  i.material-icons check
+            td.actions
+              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(href=(`/requests/${request.id}`) id=('show' + i))
+                i.material-icons visibility
+                .mdl-tooltip(data-mdl-for=('show' + i))
+                  | View

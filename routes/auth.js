@@ -19,7 +19,10 @@ module.exports = (passport) => {
     }))
 
     .get('/success', (req, res) => {
-      // console.log('[LOG]', req.session, req.user)
+      if (req.user && req.user.isAdmin) {
+        res.redirect('/admin');  
+      }
+
       res.redirect('/requests');
     })
 

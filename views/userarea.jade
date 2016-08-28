@@ -39,6 +39,10 @@ html
                 | Settings
 
         nav.app-navigation.mdl-navigation.mdl-color--blue-grey-800
+          if user.isAdmin
+            a.mdl-navigation__link(href='/admin')
+              i.mdl-color-text--blue-grey-100.material-icons desktop_mac
+              | Dashboard
           a.mdl-navigation__link(href='/')
             i.mdl-color-text--blue-grey-100.material-icons home
             | Home
@@ -52,7 +56,7 @@ html
             a.mdl-navigation__link(href='/admin/experts')
               i.mdl-color-text--blue-grey-100.material-icons people
               | Experts
-          a.mdl-navigation__link(href='/user/account')
+          //- a.mdl-navigation__link(href='/user/account')
             i.mdl-color-text--blue-grey-100.material-icons settings
             | Account
           a.mdl-navigation__link(href='/auth/logout')
