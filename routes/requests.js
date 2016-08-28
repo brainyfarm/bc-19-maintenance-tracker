@@ -3,6 +3,9 @@
 const router = require('express').Router();
 const db = require('../models');
 const application = require('./application');
+const Jusibe = require('jusibe');
+const jusibePublicKey = process.env.JUSIBE_PUBLIC_KEY;
+const jusibeAccessToken = process.env.JUSIBE_ACCESS_TOKEN;
 
 
 router.use('/', application.isAuthenticated);
@@ -65,15 +68,34 @@ router
       status: "assigned",
       approved: true
     }
+    db.Request.findById(req.params.id).then((request) => {
+      db.Request.update(params, { where: { id: req.params.id }})
+        .then((result) => {
 
-    db.Request.update(params, { where: { id: req.params.id }})
-      .then((result) => {
-        res.redirect(`/requests/${req.params.id}`);
-      })
+          db.User.findById(params.ExpertId).then((expert) => {
+            const jusibe = new Jusibe(jusibePublicKey, jusibeAccessToken);
 
-      .catch((err) => {
-        console.log('[Error]', err);
-      });
+            const payload = {
+              to: expert.phone,
+              from: 'Tracker App',
+              message: `Hello ${expert.firstName()}\nYou have been assigned a task: ${request.description.slice(0, 30)}`
+            };
+
+            jusibe.sendSMS(payload, (err, res) => {
+              if (res.statusCode === 200){
+                console.log(res.body);
+              }
+                else console.log(err);
+            });
+
+          });
+          res.redirect(`/requests/${req.params.id}`);
+        })
+
+        .catch((err) => {
+          console.log('[Error]', err);
+        });
+    })
   })
 
   // POST /requests/5/comments

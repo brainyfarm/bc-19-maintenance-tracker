@@ -86,6 +86,12 @@ describe('User model', () => {
     })
   });
 
+  describe('#firstName', () => {
+    it('returns correnct first name', () => {
+      expect(this.user.firstName()).to.equal('John');
+    })
+  });
+
   describe('.validPassword', () => {
 
     it('validate user password', () => {
