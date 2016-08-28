@@ -42,7 +42,11 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
 
-    instanceMethods: { },
+    instanceMethods: {
+      firstName: function () {
+        return this.name.split(' ')[0]
+      }
+    },
 
     hooks: {
       beforeValidate: (user, options) => {
