@@ -29,13 +29,36 @@ module.exports = function(sequelize, DataTypes) {
         });
 
         Request.belongsTo(models.User, { as: 'Expert' });
+        Request.hasMany(models.Comment);
+      }
+    },
+
+    instanceMethods: {
+      rejected: function () {
+        return this.status === 'rejected'
+      },
+
+      resolved: function () {
+        return this.status === 'resolved'
+      },
+
+      approve: function () {
+        this.approved = true;
+        if(this.rejected()) {
+          this.status = 'reported'
+        }
+      },
+
+      reject: function () {
+        this.approved = false;
+        this.status = 'rejected'
       }
     },
 
     hooks: {
        beforeCreate: (request, options) => {
          request.slug = request.description.split(' ').join('-').toLowerCase();
-         request.status = 'reported';
+         request.status = request.status || 'reported';
        }
     }
   });

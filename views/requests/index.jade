@@ -16,7 +16,7 @@ block content
           tr
             td.mdl-data-table__cell--non-numeric= request.description
             td= request.type
-            td= moment(request.createdAt).format('MMM Do YY')
+            td= formatDate(request.createdAt)
             td
               span.request-status-sm(class=requestStatusClass(request))= request.status
             td
@@ -33,8 +33,8 @@ block content
                 i.material-icons visibility
                 .mdl-tooltip(data-mdl-for=('show' + i))
                   | View
-              form(action=(`/requests/${request.id}?_method=DELETE`) method="post" style="display:inline")
-                button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(id=('delete' + i))
+              form.inline(action=`/requests/${request.id}?_method=DELETE` method="post")
+                button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(type="submit" id=('delete' + i))
                   i.material-icons delete
                 .mdl-tooltip(data-mdl-for=('delete' + i))
                   | Delete

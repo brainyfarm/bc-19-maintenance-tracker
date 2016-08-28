@@ -1,7 +1,8 @@
 .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-  input#description.mdl-textfield__input(type="text" name="description" value=request.description)
+  textarea#description.mdl-textfield__input(type='text' rows='5' name="description" required)= request.description
   label.mdl-textfield__label(for='description') Description
-.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+label(for='type') Type
+.mdl-textfield.mdl-js-textfield
   select#type.mdl-textfield__input(name="type" value=request.type)
     each option in ['repair', 'maintenance']
       option(value=option selected=(request.type == option ? true : false ))= option

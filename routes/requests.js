@@ -6,9 +6,12 @@ const application = require('./application');
 
 
 router.use('/', application.isAuthenticated);
+router.use('/:id/assign', application.isAdmin);
+router.use('/:id/comments', application.isAdmin);
+router.use('/:id/update_status', application.isAdmin);
 
 router.route('/')
-
+  // GET /requests
   .get((req, res, next) => {
     let query = { order: 'id' };
 
@@ -21,6 +24,7 @@ router.route('/')
     })
   })
 
+  // POST /requests
   .post((req, res, next) => {
     const requestParams = {
       description: req.body.description,
@@ -38,12 +42,13 @@ router.route('/')
   });
 
 router
-
+  // GET /requests/new
   .get('/new', (req, res) => {
     const request = { description: '', type: 'maintenance' }
     res.render('requests/new', { title: 'Submit Request', request: request });
   })
 
+  // GET /requests/5/edit
   .get('/:id/edit', (req, res) => {
     db.Request.findById(req.params.id).then((request) => {
       if(!request)
@@ -53,6 +58,7 @@ router
     });
   })
 
+  // POST /requests/5/assign
   .post('/:id/assign', (req, res) => {
     const params = {
       ExpertId: req.body.expert,
@@ -62,7 +68,6 @@ router
 
     db.Request.update(params, { where: { id: req.params.id }})
       .then((result) => {
-        console.log(result);
         res.redirect(`/requests/${req.params.id}`);
       })
 
@@ -71,23 +76,83 @@ router
       });
   })
 
-router.route('/:id')
+  // POST /requests/5/comments
+  .post('/:id/comments', (req, res) => {
+    const params = {
+      UserId: req.user.id,
+      body: req.body.body,
+      RequestId: req.params.id
+    };
 
-  .get((req, res, next) => {
-    db.Request.findById(req.params.id, { include: [ db.User, { model: db.User, as: 'Expert' } ] })
-      .then((request) => {
-      if(!request)
-        res.sendStatus(404);
-        if (request.Expert) {
-          res.render('requests/show', { title:  request.description.slice(0, 30), request: request });
-        } else {
-          db.User.findAll({ where: { role: 'expert' } }).then((experts) => {
-            res.render('requests/show', { title:  request.description.slice(0, 30), request: request, experts: experts });
-          });
-        }
+    db.Comment.create(params).then((comment) => {
+      res.redirect(`/requests/${req.params.id}`);
     });
   })
 
+  // POST /requests/5/update_status
+  .post('/:id/update_status', (req, res) => {
+    const allowedStatuses = ['rejected', 'approved', 'resolved'];
+    const params = { status: req.query.status };
+
+    console.log('[LOG]', params)
+    if (allowedStatuses.indexOf(params.status) !== -1) {
+      if (params.status === 'approved') {
+        params.approved = true;
+      } else if (params.status === 'rejected') {
+        params.ExpertId = null;
+        params.approved = false;
+      }
+
+      db.Request.update(params, { where: { id: req.params.id }})
+      .then((result) => {
+        res.redirect(`/requests/${req.params.id}`);
+      })
+
+      .catch((err) => {
+        console.log('[Error]', err);
+      });
+    } else {
+      res.redirect(`/requests/${req.params.id}`);
+    }
+  });
+
+router.route('/:id')
+
+  // GET /requests/5
+  .get((req, res, next) => {
+    db.Request.findById(req.params.id, {
+      include: [
+        db.User,
+        { model: db.User, as: 'Expert' }
+      ]}).then((request) => {
+      if(!request) {
+        res.sendStatus(404);
+      }
+
+      db.Comment.findAll({ where: { RequestId: req.params.id },
+        include: [ db.User ]
+       }).then((comments) => {
+        if (request.Expert) {
+          res.render('requests/show', {
+            title:  request.description.slice(0, 30),
+            request: request,
+            comments: comments
+          });
+        } else {
+          db.User.findAll({ where: { role: 'expert' } }).then((experts) => {
+            res.render('requests/show', {
+              title:  request.description.slice(0, 30),
+              request: request,
+              experts: experts,
+              comments: comments
+            });
+          });
+        }
+      })
+    });
+  })
+
+  // POST /requests
   .post((req, res, next) => {
     const requestParams = {
       description: req.body.description,
@@ -107,6 +172,7 @@ router.route('/:id')
 
   })
 
+  // DELETE /requests
   .delete((req, res) => {
     db.Request.findById(req.params.id).then((request) => {
       if(request) {
