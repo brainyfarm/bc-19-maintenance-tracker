@@ -17,6 +17,8 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.15.1",
     "bower": "1.7.x",
+    "cloudinary": "^1.4.1",
+    "connect-multiparty": "^2.0.0",
     "connect-session-sequelize": "^3.1.0",
     "debug": "~2.2.0",
     "dotenv": "^2.0.0",

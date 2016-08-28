@@ -3,6 +3,9 @@
 const router = require('express').Router();
 const db = require('../models');
 const application = require('./application');
+const multipart = require('connect-multiparty')();
+const cloudinary = require('cloudinary').v2;
+
 const Jusibe = require('jusibe');
 const jusibePublicKey = process.env.JUSIBE_PUBLIC_KEY;
 const jusibeAccessToken = process.env.JUSIBE_ACCESS_TOKEN;
@@ -28,7 +31,7 @@ router.route('/')
   })
 
   // POST /requests
-  .post((req, res, next) => {
+  .post(multipart, (req, res, next) => {
     const requestParams = {
       description: req.body.description,
       type: req.body.type,
@@ -36,25 +39,35 @@ router.route('/')
     };
 
     db.Request.create(requestParams).then((request) => {
-      if(!request) {
-        res.render('requests/new', { title: 'Submit Request', request: requestParams });
-      }
 
-      res.redirect('/requests');
-    })
+      if (req.files.photo.size > 0) {
+        const photoFile = req.files.photo.path;
+
+        cloudinary.uploader.upload(photoFile, { tags: 'request_photo' })
+          .then((photo) => {
+            
+            db.Request.update({ photoUrl: photo.url }, { where: { id: request.id } })
+              .then((result) => {
+                res.redirect(`/requests/${request.id}`);
+              })
+          });
+      } else {
+        res.redirect(`/requests/${request.id}`);
+      }
+    });
   });
 
 router
   // GET /requests/new
   .get('/new', (req, res) => {
-    const request = { description: '', type: 'maintenance' }
+    const request = {}
     res.render('requests/new', { title: 'Submit Request', request: request });
   })
 
   // GET /requests/5/edit
   .get('/:id/edit', (req, res) => {
     db.Request.findById(req.params.id).then((request) => {
-      if(!request)
+      if (!request)
         res.sendStatus(404);
 
       res.render('requests/edit', { title: 'Edit Request', request: request });
@@ -65,11 +78,11 @@ router
   .post('/:id/assign', (req, res) => {
     const params = {
       ExpertId: req.body.expert,
-      status: "assigned",
+      status: 'assigned',
       approved: true
     }
     db.Request.findById(req.params.id).then((request) => {
-      db.Request.update(params, { where: { id: req.params.id }})
+      db.Request.update(params, { where: { id: req.params.id } })
         .then((result) => {
 
           db.User.findById(params.ExpertId).then((expert) => {
@@ -82,10 +95,10 @@ router
             };
 
             jusibe.sendSMS(payload, (err, res) => {
-              if (res.statusCode === 200){
+              if (res.statusCode === 200) {
                 console.log(res.body);
               }
-                else console.log(err);
+              else console.log(err);
             });
 
           });
@@ -125,14 +138,14 @@ router
         params.approved = false;
       }
 
-      db.Request.update(params, { where: { id: req.params.id }})
-      .then((result) => {
-        res.redirect(`/requests/${req.params.id}`);
-      })
+      db.Request.update(params, { where: { id: req.params.id } })
+        .then((result) => {
+          res.redirect(`/requests/${req.params.id}`);
+        })
 
-      .catch((err) => {
-        console.log('[Error]', err);
-      });
+        .catch((err) => {
+          console.log('[Error]', err);
+        });
     } else {
       res.redirect(`/requests/${req.params.id}`);
     }
@@ -144,48 +157,63 @@ router.route('/:id')
   .get((req, res, next) => {
     db.Request.findById(req.params.id, {
       include: [
-        db.User,
+        { model: db.User },
         { model: db.User, as: 'Expert' }
-      ]}).then((request) => {
-      if(!request) {
+      ]
+    }).then((request) => {
+      if (!request) {
         res.sendStatus(404);
       }
 
-      db.Comment.findAll({ where: { RequestId: req.params.id },
-        include: [ db.User ]
-       }).then((comments) => {
+      db.Comment.findAll({
+        where: { RequestId: req.params.id },
+        include: [db.User]
+      }).then((comments) => {
         if (request.Expert) {
           res.render('requests/show', {
-            title:  request.description.slice(0, 30),
+            title: request.description.slice(0, 30),
             request: request,
             comments: comments
           });
         } else {
           db.User.findAll({ where: { role: 'expert' } }).then((experts) => {
             res.render('requests/show', {
-              title:  request.description.slice(0, 30),
+              title: request.description.slice(0, 30),
               request: request,
               experts: experts,
               comments: comments
             });
           });
         }
-      })
+      });
     });
   })
 
   // POST /requests
-  .post((req, res, next) => {
+  .post(multipart, (req, res, next) => {
     const requestParams = {
       description: req.body.description,
       type: req.body.type,
     };
 
 
-    db.Request.update(requestParams, { where: { id: req.params.id }})
+    db.Request.update(requestParams, { where: { id: req.params.id } })
       .then((result) => {
-        console.log(result);
-        res.redirect('/requests');
+        if (req.files.photo.size > 0) {
+          const photoFile = req.files.photo.path;
+
+          cloudinary.uploader.upload(photoFile, { tags: 'request_photo' })
+            .then((photo) => {
+              
+              db.Request.update({ photoUrl: photo.url }, { where: { id: req.params.id } })
+                .then((result) => {
+                  res.redirect(`/requests/${req.params.id}`);
+                });
+            });
+
+        } else {
+          res.redirect(`/requests/${req.params.id}`);
+        }
       })
 
       .catch((err) => {
@@ -197,7 +225,7 @@ router.route('/:id')
   // DELETE /requests
   .delete((req, res) => {
     db.Request.findById(req.params.id).then((request) => {
-      if(request) {
+      if (request) {
         request.destroy();
         res.redirect('/requests');
       } else {

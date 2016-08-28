@@ -1,4 +1,5 @@
 'use strict';
+const User = require('./index').User;
 
 // Request model
 module.exports = function(sequelize, DataTypes) {
@@ -19,7 +20,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
-    }
+    },
+    photoUrl: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
@@ -33,6 +35,15 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
 
+    scopes: {
+      defaultScope: {
+        order: 'id' 
+      },
+
+      latest: {
+        limit: 5
+      }
+    },
     instanceMethods: {
       rejected: function () {
         return this.status === 'rejected'
