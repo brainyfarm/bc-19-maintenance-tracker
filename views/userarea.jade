@@ -2,10 +2,14 @@ doctype html
 html
   head
     title= title
-    link(rel="stylesheet" href="/bower_components/material-design-lite/material.min.css")
-    //- link(rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+    if env == 'development'
+      link(rel="stylesheet" href="/bower_components/material-design-lite/material.min.css")
+      script(src="/bower_components/material-design-lite/material.min.js")
+    else
+      link(rel="stylesheet" href="https://code.getmdl.io/1.2.0/material.indigo-pink.min.css")
+      link(rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+      script(defer src="https://code.getmdl.io/1.2.0/material.min.js")
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src="/bower_components/material-design-lite/material.min.js")
   body
     .app-layout.mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
       header.mdl-layout__header.mdl-color--grey-100.mdl-color-text--grey-600
@@ -36,14 +40,27 @@ html
 
         nav.app-navigation.mdl-navigation.mdl-color--blue-grey-800
           a.mdl-navigation__link(href='/')
-            i.mdl-color-text--blue-grey-400.material-icons home
+            i.mdl-color-text--blue-grey-100.material-icons home
             | Home
           a.mdl-navigation__link(href='/requests')
-            i.mdl-color-text--blue-grey-400.material-icons list
+            i.mdl-color-text--blue-grey-100.material-icons list
             | Requests
+          if user.isAdmin
+            a.mdl-navigation__link(href='/admin/users')
+              i.mdl-color-text--blue-grey-100.material-icons person
+              | Users
+            a.mdl-navigation__link(href='/admin/experts')
+              i.mdl-color-text--blue-grey-100.material-icons people
+              | Experts
+          a.mdl-navigation__link(href='/user/account')
+            i.mdl-color-text--blue-grey-100.material-icons settings
+            | Account
           a.mdl-navigation__link(href='/auth/logout')
-            i.mdl-color-text--blue-grey-400.material-icons input
+            i.mdl-color-text--blue-grey-100.material-icons input
             | Logout
+          .mdl-layout-spacer
+          span.mdl-navigation__link
+            | Tracker App &copy; 2016
         
       main.mdl-layout__content
         .page-content

@@ -1,0 +1,102 @@
+extends ../userarea
+
+block content
+  .mdl-grid
+    .mdl-cell.mdl-cell--3-col
+      a.mdl-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored(href="/requests")
+        i.material-icons arrow_back
+    .mdl-cell.mdl-cell--9-col.align-right.app-actions
+      if user.isAdmin
+        if !request.rejected() && !request.resolved()
+          form.inline(action=`/requests/${request.id}\/update_status?status=rejected` method="post")
+            button.mdl-button.mdl-button--raised.mdl-button--accent(type="submit") Reject
+        if request.rejected() || !request.approved
+          form.inline(action=`/requests/${request.id}\/update_status?status=approved` method="post")
+            button.mdl-button.mdl-button--raised.mdl-color--light-blue(type="submit") Approve
+        if request.approved && !request.resolved()
+          form.inline(action=`/requests/${request.id}\/update_status?status=resolved` method="post")
+            button.mdl-button.mdl-button--raised.mdl-color--green(type="submit") Resolve
+              i.material-icons check
+
+  .mdl-grid
+    .app-data-list.mdl-cell.mdl-cell--6-col
+      .mdl-grid
+        h4.mdl-cell.mdl-cell--8-col Request Details
+        .mdl-cell.mdl-cell--4-col
+          span.request-status(class=requestStatusClass(request))= request.status
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col Description
+        .mdl-cell.mdl-cell--6-col= request.description
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col Type
+        .mdl-cell.mdl-cell--6-col= request.type
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col Approved
+        .mdl-cell.mdl-cell--6-col
+          i.material-icons #{request.approved ? 'check' : 'clear'}
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col Date Created
+        .mdl-cell.mdl-cell--6-col= formatDate(request.createdAt)
+      .mdl-grid
+        h4 Comments
+      if comments.length > 0
+        each comment in comments
+          .mdl-grid
+            .mdl-cell.mdl-cell--6-col= comment.body
+            .mdl-cell.mdl-cell--6-col
+              = comment.User.name
+              i.material-icons verified_user
+              br
+              = formatDate(comment.createdAt)
+              
+      else
+        .mdl-grid
+          strong No comment yet
+
+    .app-data-list.mdl-cell.mdl-cell--6-col
+      .mdl-grid
+        h4 User Details
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col
+          img.app-avatar(src='/images/user.jpg')
+
+        .mdl-cell.mdl-cell--6-col
+          strong= request.User.name
+          br
+          = request.User.email
+
+      .mdl-grid
+        h4 Assigned Expert
+      .mdl-grid
+        if request.Expert
+          .mdl-cell.mdl-cell--6-col
+            img.app-avatar(src='/images/user.jpg')
+
+          .mdl-cell.mdl-cell--6-col
+            strong= request.Expert.name
+            br
+            = request.Expert.email
+            br
+            = request.Expert.phone
+        else
+          strong No Expert assigned to this request.
+      if !request.Expert && user.isAdmin
+        form.mdl-grid(action=`/requests/${request.id}\/assign` method="post")
+          .mdl-cell.mdl-cell--6-col
+            .mdl-selectfield
+              select#expert.mdl-textfield__input(name="expert" required)
+                each expert in experts
+                  option(value=expert.id)= expert.name
+          .mdl-cell.mdl-cell--6-col
+            input.mdl-button.mdl-button--raised.mdl-button--accent(type="submit" value="Assign")
+
+      if user.isAdmin
+        .mdl-grid
+          h4 Post a comment
+        form.mdl-grid(action=`/requests/${request.id}\/comments` method="post")
+          .mdl-cell.mdl-cell--8-col
+            .mdl-textfield.mdl-js-textfield
+              textarea#comment.mdl-textfield__input(type='text' rows='5' name="body" required)
+              label.mdl-textfield__label(for='comment') Comment
+          .mdl-cell.mdl-cell--4-col
+            input.mdl-button.mdl-button--raised.mdl-button--accent(type="submit" value="Post")

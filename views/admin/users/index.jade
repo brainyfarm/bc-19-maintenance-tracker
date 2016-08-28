@@ -1,0 +1,33 @@
+extends ../../userarea
+ 
+block content
+  .mdl-grid
+    table.mdl-cell.mdl-cell--12-col.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
+      thead
+        tr
+          th.mdl-data-table__cell--non-numeric Name
+          th.mdl-data-table__cell--non-numeric Email
+          th.mdl-data-table__cell--non-numeric Phone
+          th Registered
+          th Actions
+
+      tbody
+        each person, i in users
+          tr
+            td.mdl-data-table__cell--non-numeric= person.name
+            td.mdl-data-table__cell--non-numeric= person.email
+            td.mdl-data-table__cell--non-numeric= person.phone
+            td= formatDate(person.createdAt)
+            td
+              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(href=(`/admin/${person.role}s/${person.id}`) id=('show' + i))
+                i.material-icons visibility
+                .mdl-tooltip(data-mdl-for=('show' + i))
+                  | View
+              a.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored(href=(`/admin/experts/${person.id}\/edit`) id=('edit' + i))
+                i.material-icons edit
+                .mdl-tooltip(data-mdl-for=('edit' + i))
+                  | Edit
+
+  if title == 'Experts'
+    a.app-button--fab.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-js-ripple-effect(href="/admin/experts/new")
+      i.material-icons person_add

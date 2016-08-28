@@ -22,11 +22,19 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
-    }
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    phone: DataTypes.STRING
+
   }, {
     classMethods: {
       associate: (models) => {
         User.hasMany(models.Request);
+        User.hasMany(models.Request, { as: 'Tasks'});
+        User.hasMany(models.Comment);
       },
 
       validPassword: (user, password) => {
@@ -34,11 +42,16 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
 
-    instanceMethods: { },
+    instanceMethods: {
+      firstName: function () {
+        return this.name.split(' ')[0]
+      }
+    },
 
     hooks: {
       beforeValidate: (user, options) => {
         user.isAdmin = user.isAdmin || false;
+        user.role = user.role || 'user';
       },
 
       beforeCreate: (user, options) => {

@@ -1,8 +1,9 @@
+require('dotenv').config({silent: true});
+
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
@@ -12,8 +13,8 @@ const db = require('./models');
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 
 const routes = require('./routes');
-const users = require('./routes/users');
 const requests = require('./routes/requests');
+const adminRoutes = require('./routes/admin');
 
 const auth = require('./routes/auth')(passport);
 const config = require('./config/settings');
@@ -30,7 +31,6 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
@@ -41,25 +41,21 @@ app.use(session({
     table: 'Session'
   }),
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { maxAge: 604800000 }
 }));
 
 // initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(require('./lib/view-helpers'));
 
-app.use((req, res, next) => {
-  res.locals.user = req.user;
-  next();
-});
-
-app.locals.moment = require('moment');
 
 app.use('/', routes);
-app.use('/users', users);
 app.use('/auth', auth);
 app.use('/requests', requests);
+
+app.use('/admin', adminRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -69,7 +65,6 @@ app.use((req, res, next) => {
 });
 
 require('./passport-init')(passport);
-
 // error handlers
 
 // development error handler

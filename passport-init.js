@@ -7,12 +7,12 @@ module.exports = function (passport) {
 
   // Serialize Session
   passport.serializeUser((user, done) => {
-    done(null, user);
+    done(null, user.id);
   });
 
   // Deserialize Session
-  passport.deserializeUser((user, done) => {
-    User.find({ id: user.id }).then((user) => {
+  passport.deserializeUser((id, done) => {
+    User.findOne({ where: { id: id } }).then((user) => {
       if (user) {
         done(null, user);
       } else {
@@ -27,20 +27,17 @@ module.exports = function (passport) {
       usernameField: 'email',
       passwordField: 'password',
     }, (req, email, password, done) => {
-        User.find({ email: email }).then((user) => {
-
+        User.findOne({ where: { email: email } }).then((user) => {
           if (user) { // Found user
 
             if (User.validPassword(user, password)) { // Password match
-              return done(null, user);
+              return done(null, user,  { message: 'Login successful.' });
             } else {
-              console.log('Invalid Password');
-              return done(null, false); // redirect back to login page
+              return done(null, false, { message: 'Incorrect password.' }); // redirect back to login page
             }
 
           } else {
-            console.log(`User Not Found with email ${email}`);
-            return done(null, false);
+            return done(null, false, `User with email ${email} not found`);
           }
         })
 
@@ -52,22 +49,20 @@ module.exports = function (passport) {
       passwordField: 'password',
     }, (req, email, password, done) => {
 
-      User.find({ email: email }).then((user) => {
+      User.findOne({ where: { email: email } }).then((user) => {
         if (user) {
-          console.log(`User already exists with email: ${email}`);
-          return done(null, false);
+          return done(null, false, `User with email: ${email} already exists`);
         } else {
           User.create({
             name: req.body.name,
+            phone: req.body.phone,
             email: email,
             password: password
           }).then((user) => {
             if (user) {
-              console.log(`${user.name} Registration succesful`);
-              return done(null, user);
+              return done(null, user, `${user.email} Registration succesful`);
             } else {
-              console.log(`Failed to register ${user.name}`);
-              return done(null, false);
+              return done(null, false, `Failed to register ${user.email}`);
             }
           })
         }

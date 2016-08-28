@@ -13,9 +13,10 @@ describe('User model', () => {
   afterEach(() => User.sequelize.sync({ force: true }))
 
   describe('.build', () => {
-    it('creates a User instance', () => {
+    it('creates a User instance and assign correct attributes', () => {
       expect(this.user.name).to.equal(userAttr.name);
       expect(this.user.email).to.equal(userAttr.email);
+      expect(this.user.phone).to.equal(userAttr.phone);
     });
   });
 
@@ -27,6 +28,15 @@ describe('User model', () => {
             .then((count) => {
               expect(count).to.equal(1);
             });
+        });
+    });
+  });
+
+  describe('#role', () => {
+    it('assign default user role', () => {
+      return this.user.save()
+        .then((user) => {
+          expect(this.user.role).to.equal('user');
         });
     });
   })
@@ -73,6 +83,12 @@ describe('User model', () => {
               expect(count).to.equal(0);
             });
         });
+    })
+  });
+
+  describe('#firstName', () => {
+    it('returns correnct first name', () => {
+      expect(this.user.firstName()).to.equal('John');
     })
   });
 
