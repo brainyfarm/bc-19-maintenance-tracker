@@ -268,15 +268,16 @@ _:-ms-input-placeholder, :root .app-graph {
   color: #fff;
   padding: 5px 12px;
   border-radius: 20px;
+  text-transform: capitalize;
 }
 
 .request-status-sm {
   display: inline-block;
   color: #fff;
   padding: 1px 7px;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
   border-radius: 15px;
+  text-transform: capitalize;
 }
 
 .status-success {
@@ -314,4 +315,46 @@ _:-ms-input-placeholder, :root .app-graph {
 
 .app-actions .mdl-button:last-of-type {
   margin-right: 0;
+}
+
+.file_input_div {
+  margin: auto;
+  width: 80%;
+  height: 40px;
+}
+
+.file_input {
+  float: left;
+}
+
+#file_input_text_div {
+  width: 80%;
+  margin-top: -8px;
+  margin-left: 5px;
+}
+
+.none {
+  display: none;
+}
+
+.mdl-grid img {
+  max-width: 100%;
+}
+
+.app-dash h4,
+.app-dash h2 {
+  text-align: center;  
+}
+
+.app-dash h2 {
+  font-weight: 700;
+  margin: 10px;
+}
+
+.app-form .mdl-textfield {
+  width: 100%;
+}
+
+#file_input_text_div input {
+  color: inherit !important;
 }

@@ -2,6 +2,12 @@ extends ../userarea
  
 block content
   .mdl-grid
-    form.mdl-cell.mdl-cell-6-col(action=(`/requests/${request.id}`) method="post")
-      include ./_form
-      
+    .mdl-cell.mdl-cell--6-col
+      form.app-form(action=(`/requests/${request.id}`) enctype="multipart/form-data" method="post")
+        include ./_form
+    .mdl-cell.mdl-cell--6-col
+      h4 Photo
+      if request.photoUrl
+        img(src=request.photoUrl alt="Request Photo")
+      else
+        strong No photo uploaded for this request.
