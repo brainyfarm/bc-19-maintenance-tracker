@@ -295,3 +295,23 @@ _:-ms-input-placeholder, :root .app-graph {
   background: sandybrown;
   /*color: inherit;*/
 }
+
+.inline {
+  display: inline;
+}
+
+.mdl-button[class*="mdl-color"] {
+  color: #fff !important;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.app-actions .mdl-button {
+  margin: 0 10px;
+}
+
+.app-actions .mdl-button:last-of-type {
+  margin-right: 0;
+}

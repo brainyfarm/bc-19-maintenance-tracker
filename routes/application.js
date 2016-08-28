@@ -5,7 +5,8 @@ module.exports = {
     if (req.isAuthenticated()) {
       next();
     } else {
-      next(new Error(401));
+      // next(new Error(401));
+      res.redirect('/login');
     }
   },
 
@@ -13,7 +14,8 @@ module.exports = {
     if (req.user.isAdmin) {
       next();
     } else {
-      next(new Error(401));
+      // next(new Error(401));
+      res.redirect('/login');
     }
   }
 

@@ -2,12 +2,22 @@ extends ../userarea
 
 block content
   .mdl-grid
-    .mdl-cell.mdl-cell--2-col
+    .mdl-cell.mdl-cell--3-col
       a.mdl-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored(href="/requests")
         i.material-icons arrow_back
-    if user.isAdmin
-      .mdl-cell
-        a.mdl-button.mdl-button--raised.mdl-button--accent Decline
+    .mdl-cell.mdl-cell--9-col.align-right.app-actions
+      if user.isAdmin
+        if !request.rejected() && !request.resolved()
+          form.inline(action=`/requests/${request.id}\/update_status?status=rejected` method="post")
+            button.mdl-button.mdl-button--raised.mdl-button--accent(type="submit") Reject
+        if request.rejected() || !request.approved
+          form.inline(action=`/requests/${request.id}\/update_status?status=approved` method="post")
+            button.mdl-button.mdl-button--raised.mdl-color--light-blue(type="submit") Approve
+        if request.approved && !request.resolved()
+          form.inline(action=`/requests/${request.id}\/update_status?status=resolved` method="post")
+            button.mdl-button.mdl-button--raised.mdl-color--green(type="submit") Resolve
+              i.material-icons check
+
   .mdl-grid
     .app-data-list.mdl-cell.mdl-cell--6-col
       .mdl-grid
@@ -35,6 +45,7 @@ block content
             .mdl-cell.mdl-cell--6-col= comment.body
             .mdl-cell.mdl-cell--6-col
               = comment.User.name
+              i.material-icons verified_user
               br
               = formatDate(comment.createdAt)
               

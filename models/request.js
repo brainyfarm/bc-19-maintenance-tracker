@@ -38,6 +38,10 @@ module.exports = function(sequelize, DataTypes) {
         return this.status === 'rejected'
       },
 
+      resolved: function () {
+        return this.status === 'resolved'
+      },
+
       approve: function () {
         this.approved = true;
         if(this.rejected()) {
