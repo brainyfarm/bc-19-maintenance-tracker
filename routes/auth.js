@@ -19,9 +19,9 @@ module.exports = (passport) => {
     .get('/success', (req, res) => {
       if (req.user && req.user.isAdmin) {
         res.redirect('/admin');  
+      } else {
+        res.redirect('/requests');
       }
-
-      res.redirect('/requests');
     })
 
 	  // Log out
