@@ -7,15 +7,13 @@ module.exports = (passport) => {
 	  // Loog in
 	  .post('/login', passport.authenticate('login', {
       successRedirect: '/auth/success',
-      failureRedirect: '/login',
-      session: true
+      failureRedirect: '/login'
     }))
 
 	  // Sign up
 	  .post('/signup', passport.authenticate('signup', {
       successRedirect: '/auth/success',
-      failureRedirect: '/signup',
-      session: true
+      failureRedirect: '/signup'
     }))
 
     .get('/success', (req, res) => {
