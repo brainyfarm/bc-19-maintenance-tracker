@@ -19,7 +19,7 @@ router.use('/:id/update_status', application.isAdmin);
 router.route('/')
   // GET /requests
   .get((req, res, next) => {
-    let query = { order: 'id' };
+    let query = { order: [ ['id', 'DESC'] ] };
 
     if (!req.user.isAdmin) {
       query.where = { UserId: req.user.id };
