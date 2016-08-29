@@ -2,5 +2,8 @@ extends ../userarea
  
 block content
   .mdl-grid
-    form.mdl-cell.mdl-cell-6-col(action="/requests" method="post")
-      include ./_form
+    .mdl-cell.mdl-cell--6-col
+      form.app-form(action="/requests" enctype="multipart/form-data" method="post")
+        include ./_form
+    .mdl-cell.mdl-cell--6-col
+

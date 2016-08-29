@@ -1,11 +1,14 @@
 extends ../userarea
 
 block content
+
   .mdl-grid
     .mdl-cell.mdl-cell--3-col
       a.mdl-button.mdl-button--fab.mdl-button--mini-fab.mdl-button--colored(href="/requests")
         i.material-icons arrow_back
     .mdl-cell.mdl-cell--9-col.align-right.app-actions
+      if user.id == request.User.id
+        a.mdl-button.mdl-button--raised.mdl-color--light-blue(href=`/requests/${request.id}\/edit`) Edit
       if user.isAdmin
         if !request.rejected() && !request.resolved()
           form.inline(action=`/requests/${request.id}\/update_status?status=rejected` method="post")
@@ -35,6 +38,14 @@ block content
         .mdl-cell.mdl-cell--6-col
           i.material-icons #{request.approved ? 'check' : 'clear'}
       .mdl-grid
+        .mdl-cell.mdl-cell--6-col
+          img.app-avatar(src='/images/user.jpg')
+
+        .mdl-cell.mdl-cell--6-col
+          strong= request.User.name
+          br
+          = request.User.email
+      .mdl-grid
         .mdl-cell.mdl-cell--6-col Date Created
         .mdl-cell.mdl-cell--6-col= formatDate(request.createdAt)
       .mdl-grid
@@ -55,16 +66,14 @@ block content
 
     .app-data-list.mdl-cell.mdl-cell--6-col
       .mdl-grid
-        h4 User Details
+        h4 Photo
       .mdl-grid
-        .mdl-cell.mdl-cell--6-col
-          img.app-avatar(src='/images/user.jpg')
-
-        .mdl-cell.mdl-cell--6-col
-          strong= request.User.name
-          br
-          = request.User.email
-
+        if request.photoUrl
+          .mdl-cell.mdl-cell--12-col
+            a(href=request.photoUrl)
+              img(src=request.photoUrl alt="Request Photo")
+        else
+          strong No photo uploaded for this request.
       .mdl-grid
         h4 Assigned Expert
       .mdl-grid

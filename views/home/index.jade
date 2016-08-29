@@ -2,11 +2,19 @@ extends ../layout
 
 block content
   .app-banner
-    .header(style="position:relative; text-align:center")
-      h2 Track your Maintenance Requests.
-      div
-        a(href="/login")
-          h4 Login
-        | or
-        a(href="/signup")
-          h4 Sign Up
+    .mdl-grid.header
+      .mdl-cell.mdl-cell--6-col
+        h3 The Simplest Way to Manage and Track Your Maintenance Request.
+        a.mdl-button.mdl-button--raised.mdl-button--accent(href="/signup") Sign up
+      .mdl-cell.mdl-cell-6--col
+        .mdl-grid.app-grid-320
+          form.mdl-card.app-mdl-card.mdl-shadow--2dp(action="/auth/login" method="post")
+            h3 Login
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              input#email.mdl-textfield__input(type='email' name="email")
+              label.mdl-textfield__label(for='email') Email
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              input#password.mdl-textfield__input(type='password' name="password")
+              label.mdl-textfield__label(for='password') Password
+
+            input.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(type="submit" value="Login")

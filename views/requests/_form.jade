@@ -1,11 +1,23 @@
 .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-  textarea#description.mdl-textfield__input(type='text' rows='5' name="description" required)= request.description
-  label.mdl-textfield__label(for='description') Description
-label(for='type') Type
+  textarea#description.mdl-textfield__input(type="text" rows="5" name="description" required)= request.description
+  label.mdl-textfield__label(for="description") Description
+
+.file_input
+  label.image_input_button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.mdl-js-ripple-effect.mdl-button--colored
+    i.material-icons file_upload
+    input#file_input_file.none(type="file" name="photo")
+#file_input_text_div.mdl-textfield.mdl-js-textfield.textfield-demo
+  input#file_input_text.file_input_text.mdl-textfield__input(type="text" disabled readonly placeholder="Photo")
+  label.mdl-textfield__label(for='file_input_text')
+
+
 .mdl-textfield.mdl-js-textfield
-  select#type.mdl-textfield__input(name="type" value=request.type)
-    each option in ['repair', 'maintenance']
+  select#type.mdl-textfield__input(name="type" value=request.type required=true)
+    option(disabled selected=!request.type) -- Select Request Type --
+    each option in ["Repair", "Maintenance"]
       option(value=option selected=(request.type == option ? true : false ))= option
   
 
 input.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent(type="submit" value="Save")
+
+script(src="/javascripts/upload.js")
