@@ -9,12 +9,20 @@ router
 
   // Login page
   .get('/login', (req, res) => {
-    res.render('home/login', { title: 'Login' });
+     if (req.user) {
+      res.redirect('/auth/success');
+    } else {
+      res.render('home/login', { title: 'Login' });
+    }
   })
 
   // signup
   .get('/signup', (req, res) => {
-    res.render('home/signup', { title: 'Signup' });
+     if (req.user) {
+      res.redirect('/auth/success');
+      } else {
+        res.render('home/signup', { title: 'Signup' });
+      }
   });
 
 module.exports = router;
