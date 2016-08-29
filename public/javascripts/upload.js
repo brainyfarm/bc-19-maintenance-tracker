@@ -16,7 +16,7 @@ function changeInputText() {
 }
 
 function changeState() {
-  if (fileInputText.value.length != 0) {
+  if (fileInputText.value.length !== 0) {
     if (!fileInputTextDiv.classList.contains("is-focused")) {
       fileInputTextDiv.classList.add('is-focused');
     }

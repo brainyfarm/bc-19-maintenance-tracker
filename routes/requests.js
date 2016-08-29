@@ -193,7 +193,7 @@ router.route('/:id')
   .post(multipart, (req, res, next) => {
     const requestParams = {
       description: req.body.description,
-      type: req.body.type,
+      type: req.body.type
     };
 
 

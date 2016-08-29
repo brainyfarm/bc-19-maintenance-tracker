@@ -36,7 +36,7 @@ html, body {
 }
 
 .app-header.mdl-layout__header {
-  background: #2fb19d !important;
+  background: #2fb19d;
 }
 
 .app-mdl-card {
@@ -82,7 +82,7 @@ html, body {
   display: inline-block;
   height: 60px;
   line-height: 68px;
-  background-color: transparent !important;
+  background-color: transparent;
   border-bottom: 4px solid transparent;
 }
 .app-navigation__top .mdl-navigation__link:hover {
@@ -95,7 +95,7 @@ html, body {
   border-radius: 24px;
 }
 .app-layout .app-header .mdl-textfield {
-  padding: 0px;
+  padding: 0;
   margin-top: 41px;
 }
 .app-layout .app-header .mdl-textfield .mdl-textfield__expandable-holder {
@@ -184,17 +184,14 @@ html, body {
   flex-direction: column;
   align-items: stretch;
 }
-/* TODO: Find a proper solution to have the graphs
- * not float around outside their container in IE10/11.
- * Using a browserhacks.com solution for now.
- */
+
 _:-ms-input-placeholder, :root .app-graphs {
   min-height: 664px;
 }
 _:-ms-input-placeholder, :root .app-graph {
   max-height: 300px;
 }
-/* TODO end */
+
 .app-graph:nth-child(1) {
   color: #00b9d8;
 }
@@ -308,7 +305,7 @@ _:-ms-input-placeholder, :root .app-graph {
 }
 
 .mdl-button[class*="mdl-color"] {
-  color: #fff !important;
+  color: #fff;
 }
 
 .align-right {
@@ -362,5 +359,5 @@ _:-ms-input-placeholder, :root .app-graph {
 }
 
 #file_input_text_div input {
-  color: inherit !important;
+  color: inherit;
 }

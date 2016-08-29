@@ -1,5 +1,6 @@
 # Maintenance Tracker
 [![Build Status](https://travis-ci.org/azemoh/bc-19-maintenance-tracker.svg?branch=master)](https://travis-ci.org/azemoh/bc-19-maintenance-tracker)
+[![Code Climate](https://codeclimate.com/github/azemoh/bc-19-maintenance-tracker/badges/gpa.svg)](https://codeclimate.com/github/azemoh/bc-19-maintenance-tracker)
 
 ## Introduction
 
