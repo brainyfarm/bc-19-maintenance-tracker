@@ -14,8 +14,9 @@ router.use('/users', users);
 router.use('/experts', experts);
 
 router.get('/', (req, res) => {
-  
-  db.Request.findAll().then((requests) => {
+  let query = { order: [ ['id', 'DESC'] ] };
+
+  db.Request.findAll(query).then((requests) => {
     db.User.findAll({ where: { role: 'user' } }).then((users) => {
       db.User.findAll({ where: { role: 'expert' } }).then((experts) => {
         res.render('admin/index', { title: 'Dashboard', users: users, requests: requests, experts: experts});

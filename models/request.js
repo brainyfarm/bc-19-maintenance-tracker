@@ -37,7 +37,7 @@ module.exports = function(sequelize, DataTypes) {
 
     scopes: {
       defaultScope: {
-        order: 'id' 
+        order: [ ['id',  'DESC'] ] 
       },
 
       latest: {
