@@ -42,28 +42,39 @@ Before we begin, ensure you have the required softwares to run this application.
 - [Node.js](nodejs.org) - A version with ECMAScript 2015 (ES6) support. This app have been [tested](https://travis-ci.org/azemoh/bc-19-maintenance-tracker) on version 4.5.0, so any version above that should be fine.
 - [Postgresql](https://www.postgresql.org/) is available on their website [https://www.postgresql.org/](https://www.postgresql.org/).
 - Install [Bower](https://bower.io/) to manage front-end dependencies.
-  > Run `npm install -g bower`.
+
+> Run `npm install -g bower`.
+
 - Install [Sequelize-CLI](https://github.com/sequelize/cli) tool to help manage database migrations. 
-  > Run `npm install -g sequelize-cli`.
+> Run `npm install -g sequelize-cli`.
+
 - Install [Jake](https://github.com/jakejs/jake) JavaScript build tool, similar to Make or Rake for Ruby. Used to create the Database for development.
-  > Run `npm install -g jake`.
+> Run `npm install -g jake`.
 
 ## Local development.
 
 1. Clone this repository locally by running
-    > `git clone https://github.com/azemoh/bc-19-maintenance-tracker.git`
-1. Navigate into the project folder `cd bc-19-maintenance-tracker`.
-1. Install required nodejs packages by running
-    > `npm install`
-1. Install Front-end libraries with __bower__
-    > `bower install`
-1. Rename the `.env-sample` file in the root directory to `.env` and provide the appropriate access keys and tokens.
-1. Create the Database by running: (Ensure __Postgres__ is running)
-    > `npm run db-init`
-1. Execute database migrations by running:
-    > `npm run db-migrate`
-1. Finally run the app.
-    > `npm start`
+
+> `git clone https://github.com/azemoh/bc-19-maintenance-tracker.git`
+
+2. Navigate into the project folder `cd bc-19-maintenance-tracker`.
+
+3. Install required nodejs packages by running
+> `npm install`
+
+4. Install Front-end libraries with __bower__
+> `bower install`
+
+5. Rename the `.env-sample` file in the root directory to `.env` and provide the appropriate access keys and tokens.
+
+6. Create the Database by running: (Ensure __Postgres__ is running)
+> `npm run db-init`
+
+7. Execute database migrations by running:
+> `npm run db-migrate`
+
+8. Finally run the app.
+> `npm start`
 
 ## Testing
 Mocha is used to run the test and Chai is used to make assertions.
