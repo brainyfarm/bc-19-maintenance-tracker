@@ -43,7 +43,6 @@ Before we begin, ensure you have the required softwares to run this application.
 - [Node.js](nodejs.org) - A version with ECMAScript 2015 (ES6) support. This app have been [tested](https://travis-ci.org/azemoh/bc-19-maintenance-tracker) on version 4.5.0, so any version above that should be fine.
 - [Postgresql](https://www.postgresql.org/) is available on their website [https://www.postgresql.org/](https://www.postgresql.org/).
 - Install [Bower](https://bower.io/) to manage front-end dependencies.
-
 > Run `npm install -g bower`.
 
 - Install [Sequelize-CLI](https://github.com/sequelize/cli) tool to help manage database migrations. 
@@ -55,7 +54,6 @@ Before we begin, ensure you have the required softwares to run this application.
 ## Local development.
 
 1. Clone this repository locally by running
-
 > `git clone https://github.com/azemoh/bc-19-maintenance-tracker.git`
 
 2. Navigate into the project folder `cd bc-19-maintenance-tracker`.
